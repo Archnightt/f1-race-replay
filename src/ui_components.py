@@ -683,6 +683,32 @@ class RaceProgressBarComponent(BaseComponent):
                     self.COLORS["text"], 8,
                     anchor_x="center", anchor_y="top"
                 ).draw()
+        
+    def on_mouse_motion(self, window, x: float, y: float, dx: float, dy: float):
+        """Handle mouse motion for hover effects."""
+        self._mouse_x = x
+        self._mouse_y = y
+        
+        # Check if mouse is over the progress bar area
+        if (self._bar_left <= x <= self._bar_left + self._bar_width and
+            self.bottom <= y <= self.bottom + self.height + self.marker_height + 10):
+            
+            # Find nearest event
+            mouse_frame = self._x_to_frame(x)
+            nearest_event = None
+            min_dist = float('inf')
+            
+            for event in self._events:
+                event_frame = event.get("frame", 0)
+                dist = abs(event_frame - mouse_frame)
+                if dist < min_dist and dist < self._total_frames * 0.02:  # Within 2% of timeline
+                    min_dist = dist
+                    nearest_event = event
+                    
+            self._hover_event = nearest_event
+        else:
+            self._hover_event = None
+            
     def on_mouse_press(self, window, x: float, y: float, button: int, modifiers: int) -> bool:
         """Handle mouse click to seek to position."""
         if (self._bar_left <= x <= self._bar_left + self._bar_width and
