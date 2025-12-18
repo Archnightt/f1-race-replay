@@ -25,6 +25,15 @@ class LegendComponent(BaseComponent):
     def __init__(self, x: int = 20, y: int = 150):
         self.x = x
         self.y = y
+        self._control_icons_textures = {}
+        # Load control icons from images/icons folder (all files)
+        icons_folder = os.path.join("images", "controls")
+        if os.path.exists(icons_folder):
+            for filename in os.listdir(icons_folder):
+                if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+                    texture_name = os.path.splitext(filename)[0]
+                    texture_path = os.path.join(icons_folder, filename)
+                    self._control_icons_textures[texture_name] = arcade.load_texture(texture_path)
         self.lines = [
             "Controls:",
             "[SPACE]  Pause/Resume",
