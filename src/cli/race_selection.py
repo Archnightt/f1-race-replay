@@ -48,11 +48,14 @@ def cli_load():
     session = select("Choose a session", choices=sessions, qmark="🏁", style=style).ask()
     if not session:
         sys.exit(0)
-
-    HUD = [Choice(title="Yes", value=True), Choice(title="No", value=False)]
-    hud = select("HUD?", choices=HUD, qmark="🖥️ ", style=style).ask()
-    if hud == None:
-        sys.exit(0)
+        
+    if session in ("Sprint", "Race"):
+        HUD = [Choice(title="Yes", value=True), Choice(title="No", value=False)]
+        hud = select("HUD?", choices=HUD, qmark="🖥️ ", style=style).ask()
+        if hud is None:
+            sys.exit(0)
+    else:
+        hud = True
 
     flag = None
     match session:
