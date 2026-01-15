@@ -78,7 +78,8 @@ class SeasonSchedule:
                     'EventDate': formatted_date,
                     'Location': row['Location'],
                     'OfficialName': row['EventName'],
-                    'Flag': flag
+                    'Flag': flag,
+                    'EventFormat': row['EventFormat']
                 }
                 cleaned_schedule.append(event_data)
                 
